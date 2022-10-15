@@ -6,7 +6,7 @@ const Header = () => {
 
     <div>
 
-<div className='flex items-center bg-slate-800 p-1 flex-grow py-2  '>
+<div className="flex items-center bg-slate-800 p-1 flex-grow py-2">
         {/* left side - Icon */}
         <div className="mt-2 flex items-center flex-grow py-2 sm:flex-grow-0 ">
             <Image src="https://links.papareact.com/f90"
@@ -14,13 +14,13 @@ const Header = () => {
             height={40}
             objectFit={"contain"}
             className="cursor-pointer"
-            alt='logo'
+            alt="logo"
             />
         </div>
     
         {/* middle side - search bar */}
         <div className="flex items-center h-10 bg-yellow-400 rounded-md flex-grow cursor-pointer  ">
-            <input className='p=2 h-full w-6 px-4 rounded-l-md flex-grow focus:outline-none' type="text" />
+            <input className="p-2 h-full w-6 px-4 rounded-l-md flex-grow focus:outline-none" type="text" />
             <MagnifyingGlassIcon className="h-12 p-4 "/>
         </div>
 
@@ -28,16 +28,16 @@ const Header = () => {
         <div className="text-white flex items-center text-xs space-x-6 mx-6 whitespace-nowrap">
             <div className="link">
                 <p>Hello, Ebrima Jallow</p>
-                <p className='font-extrabold md:text-sm '>Account & Lists</p>
+                <p className="font-extrabold md:text-sm">Account & Lists</p>
             </div>
             <div className="link">
                 <p>Returns </p>
-                <p className='font-extrabold md:text-sm '>& Orders</p>
+                <p className="font-extrabold md:text-sm">& Orders</p>
             </div>
-            <div className="relative link flex items-center ">
-                <span className='absolute top-0 right-0 md:right-10 h-4 w-4 bg-yellow-500 rounded-full text-center text-black  '>3</span>
+            <div className="relative link flex items-center">
+                <span className="absolute top-0 right-0 md:right-10 h-4 w-4 bg-yellow-500 rounded-full text-center text-black">3</span>
                 <ShoppingCartIcon className='h-10'/>
-                <p className='hidden md:inline font-extrabold md:text-sm '>Basket</p>
+                <p className="hidden md:inline font-extrabold md:text-sm">Basket</p>
                 
              </div>
         </div>
