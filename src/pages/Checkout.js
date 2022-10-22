@@ -2,14 +2,36 @@ import Image from "next/image";
 import React from "react";
 import CheckoutProduct from "../components/CheckoutProduct";
 import Header from "../components/Header";
-import {  useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useSelector } from "react-redux";
 import { selectItems, basketTotal } from "../slices/basketSlice";
+import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
+const stripePromise = loadStripe(process.env.stripe_public_key);
 
 const Checkout = () => {
   const items = useSelector(selectItems);
   const total = useSelector(basketTotal);
-  const { data: session, status } = useSession()
+  const { data: session, status } = useSession();
+
+  const createCheckoutSession = async () => {
+    const stripe = await stripePromise;
+
+    /// call backend to create a checkout session
+    const checkoutSession = await axios.post("/api/create-checkout-session", {
+      items: items,
+      email: session.user.email,
+    });
+
+    console.log("Axios Results ", checkoutSession);
+
+    //redirect user to stripe checkout
+    const result = await stripe.redirectToCheckout({
+       sessionId: checkoutSession.data.id,
+    })
+
+    if (result.error) alert(result.error.message);
+  };
 
   return (
     <div className="bg-gray-200">
@@ -20,7 +42,7 @@ const Checkout = () => {
         <div className="flex-grow m-5 shadow-sm">
           {/* top Ad */}
           <Image
-            src={"https://links.papareact.com/ikj "}
+            src={"https://links.papareact.com/ikj"}
             width={1020}
             height={250}
             objectFit="contain"
@@ -39,7 +61,7 @@ const Checkout = () => {
           {items.map((item, index) => (
             <>
               <CheckoutProduct
-                key={index+item.id}
+                key={index + item.id}
                 id={item.id}
                 title={item.title}
                 price={item.price}
@@ -62,16 +84,20 @@ const Checkout = () => {
                 <span className="font-bold">$ {total}</span>
               </h2>
 
-              <button 
-              disabled={!session}
-              className={`button mt-2  ${!session && 'from-gray-300 to-gray-500 border-gray-200 text-gray-300 cursor-not-allowed'}`}>
+              <button
+                disabled={!session}
+                onClick={createCheckoutSession}
+                className={`button mt-2  ${
+                  !session &&
+                  "from-gray-300 to-gray-500 border-gray-200 text-gray-300 cursor-not-allowed"
+                }`}
+              >
                 {!session ? "Sign in to checkout" : "Proceed to checkout"}
               </button>
             </>
           )}
         </div>
       </div>
-
     </div>
   );
 };
